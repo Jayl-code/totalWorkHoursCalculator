@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hours recorder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .total-hours, form, .past-shifts {
+            background-color: #2c2c2c;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 300px;
+            margin-bottom: 1rem;
+        }
+        .total-hours {
+            text-align: center;
+        }
+        .total-hours label, .past-shifts h3 {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b0b0b0;
+        }
+        .total-hours .value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        form {
+            padding: 2rem;
+        }
+        h2, h3 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b0b0b0;
+        }
+        input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+        }
+        input[type="submit"], #reset-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 300px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        .past-shifts {
+            display: block; /* or display: inline-block, flex, etc. */
+            width: fit-content; /* Adjusts to the content width */
+            height: fit-content; /* Adjusts to the content height */
+            padding: 10px; /* Optional: add some padding */
+        }
+        .past-shifts table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto;
+        }
+        .past-shifts th, .past-shifts td {
+            border: 1px solid #444;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        .past-shifts th {
+            background-color: #3a3a3a;
+        }
+        #reset-button {
+            border-radius: 4px;
+            background-color: #FF0000;
+        }
+        #reset-button:hover {
+            background-color: #990000;
+        }
+    </style>
+</head>
+<body>
+    <div class="total-hours">
+        <label for="total-hours">Total Hours</label>
+        <div id="total-hours" class="value">{{totalHours}}</div>
+    </div>
+    <form method="post" action="/submit">
+        <h2>Enter hours</h2>
+        <label for="start-time">Start Time (24-hour):</label>
+        <input type="time" id="start-time" name="start-time" required>
+
+        <label for="end-time">End Time (24-hour):</label>
+        <input type="time" id="end-time" name="end-time" required>
+
+        <label for="break-time">Break Time (minutes):</label>
+        <input type="number" id="break-time" name="break-time" min="0" step="1" required>
+
+        <label for="shift-date">Shift Date:</label>
+        <input type="date" id="shift-date" name="shift-date" required>
+
+        <input type="submit" value="Submit">
+    </form>
+    <div class="past-shifts">
+        <h3>Past Shifts</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hours</th>
+                    <th>Shift(Break)</th>
+                    <th>Date</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="shift-data">
+                <!-- Shift data will be inserted here -->
+            {% for line in loadedData %}
+                <tr>
+                    <th>{{ line['id'] }}</th>
+                    <th>{{ line['hours'] }}</th>
+                    <th>{{ line['shift'] }}</th>
+                    <th>{{ line['date'] }}</th>
+                    <td>
+                        <a href="{{ url_for('remove', id_to_remove=line['id']) }}" class="remove-button">Remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+    <form method="get" action="/reset">
+        <button type="submit" id="reset-button">Reset</button>
+    </form>
+
+    <script>
+        // Set default date to today
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            document.getElementById('shift-date').value = today;
+        });
+    </script>
+</body>
+</html>
