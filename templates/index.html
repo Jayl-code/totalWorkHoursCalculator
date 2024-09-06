@@ -102,6 +102,27 @@
         #reset-button:hover {
             background-color: #990000;
         }
+        td {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;     /* Center vertically */
+            height: 40px;            /* Optional: Set a specific height for the table row */
+        }
+        .remove-button {
+            text-decoration: none; /* Remove underline */
+            color: red; /* Default color for the X */
+            font-weight: bold;
+        }
+
+        /* Prevent link from turning purple after click */
+        .remove-button:visited {
+            color: red; /* Keeps the color red after being clicked */
+        }
+
+        /* Optional: Add hover effect */
+        .remove-button:hover {
+            color: darkred; /* Darker red when hovering */
+        }
     </style>
 </head>
 <body>
@@ -146,7 +167,7 @@
                     <th>{{ line['shift'] }}</th>
                     <th>{{ line['date'] }}</th>
                     <td>
-                        <a href="{{ url_for('remove', id_to_remove=line['id']) }}" class="remove-button">Remove</a>
+                        <a href="{{ url_for('remove', id_to_remove=line['id']) }}" class="remove-button">X</a>
                     </td>
                 </tr>
             {% endfor %}
