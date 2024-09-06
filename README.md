@@ -9,6 +9,7 @@ The total hours is given as a decimal to make it easier for you to calculate you
 E.g. 1 hour and 45 minutes would be shown as 1.75 hours.
 
 
-## UI
+## UI 
+Box shadows don't actually look that bad it's just the IOS 'full page' screenshot.
 
 ![](images/HoursRecorderV2.png)
