@@ -88,3 +88,7 @@ def remove_id(id_to_remove, filename='shiftHistory.json'):
         for line in new_data:
             json.dump(line, file)
             file.write('\n')
+
+
+def get_date():
+    return datetime.today().strftime('%Y-%m-%d')

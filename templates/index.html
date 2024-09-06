@@ -4,126 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hours recorder</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .total-hours, form, .past-shifts {
-            background-color: #2c2c2c;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            width: 300px;
-            margin-bottom: 1rem;
-        }
-        .total-hours {
-            text-align: center;
-        }
-        .total-hours label, .past-shifts h3 {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #b0b0b0;
-        }
-        .total-hours .value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4CAF50;
-        }
-        form {
-            padding: 2rem;
-        }
-        h2, h3 {
-            margin-top: 0;
-            color: #ffffff;
-        }
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #b0b0b0;
-        }
-        input {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #444;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: #3a3a3a;
-            color: #e0e0e0;
-        }
-        input[type="submit"], #reset-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 300px;
-        }
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        input:focus {
-            outline: none;
-            border-color: #4CAF50;
-        }
-        .past-shifts {
-            display: block; /* or display: inline-block, flex, etc. */
-            width: fit-content; /* Adjusts to the content width */
-            height: fit-content; /* Adjusts to the content height */
-            padding: 10px; /* Optional: add some padding */
-        }
-        .past-shifts table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: auto;
-        }
-        .past-shifts th, .past-shifts td {
-            border: 1px solid #444;
-            padding: 0.5rem;
-            text-align: left;
-        }
-        .past-shifts th {
-            background-color: #3a3a3a;
-        }
-        #reset-button {
-            border-radius: 4px;
-            background-color: #FF0000;
-        }
-        #reset-button:hover {
-            background-color: #990000;
-        }
-        td {
-            display: flex;
-            justify-content: center; /* Center horizontally */
-            align-items: center;     /* Center vertically */
-            height: 40px;            /* Optional: Set a specific height for the table row */
-        }
-        .remove-button {
-            text-decoration: none; /* Remove underline */
-            color: red; /* Default color for the X */
-            font-weight: bold;
-        }
-
-        /* Prevent link from turning purple after click */
-        .remove-button:visited {
-            color: red; /* Keeps the color red after being clicked */
-        }
-
-        /* Optional: Add hover effect */
-        .remove-button:hover {
-            color: darkred; /* Darker red when hovering */
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css')}}">
 </head>
 <body>
     <div class="total-hours">
@@ -142,7 +23,7 @@
         <input type="number" id="break-time" name="break-time" min="0" step="1" required>
 
         <label for="shift-date">Shift Date:</label>
-        <input type="date" id="shift-date" name="shift-date" required>
+        <input type="date" id="shift-date" name="shift-date" value="{{ todaysDate }}" required>
 
         <input type="submit" value="Submit">
     </form>
@@ -159,7 +40,6 @@
                 </tr>
             </thead>
             <tbody id="shift-data">
-                <!-- Shift data will be inserted here -->
             {% for line in loadedData %}
                 <tr>
                     <th>{{ line['id'] }}</th>
@@ -178,18 +58,5 @@
     <form method="get" action="/reset">
         <button type="submit" id="reset-button">Reset</button>
     </form>
-
-    <script>
-        // Set default date to today
-        document.addEventListener('DOMContentLoaded', function() {
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
-
-            today = yyyy + '-' + mm + '-' + dd;
-            document.getElementById('shift-date').value = today;
-        });
-    </script>
 </body>
 </html>

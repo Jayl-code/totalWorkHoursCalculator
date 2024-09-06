@@ -8,7 +8,8 @@ app = Flask(__name__)
 def home():
     loaded_data = read_from_json()
     total_hours = get_total_hours()
-    return render_template('index.html', totalHours=total_hours, loadedData=loaded_data)
+    todays_date = get_date()
+    return render_template('index.html', totalHours=total_hours, loadedData=loaded_data, todaysDate=todays_date)
 
 
 @app.route('/remove/<id_to_remove>', methods=['GET'])
