@@ -11,4 +11,4 @@ E.g. 1 hour and 45 minutes would be shown as 1.75 hours.
 
 ## UI
 
-![](images/HoursRecorderV2.PNG)
+![](images/HoursRecorderV2.png)
